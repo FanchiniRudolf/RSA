@@ -2,6 +2,7 @@
 #import rdoclient
 #import requests
 from math import gcd
+import random
 """except  ImportError:
     import pip, sys, re
     packagesNames=["requests","rdoclient"]
@@ -21,51 +22,75 @@ def openFile():
     row = row[:-1]
     print(row)
 
+#extended euclid alg; ax + by = gcd(a, b) -> ax  ≡ 1 (mod m)
+
+def modInverse(base, m):
+    """
+    Calculates modular multiplicate inverse
+    """
+
+    g, x, y = mod_inverse_iterative(base, m)
+    if (g != 1):
+        return None
+    else:
+        return (x % m)
+
+
+def mod_inverse_iterative(a, b):
+    """
+    Helps mod_inverse work
+    """
+
+    x, y, u, v = 0, 1, 1, 0
+    while a != 0:
+        q, r = b // a, b % a
+        m, n = x - u * q, y - v * q
+        b, a, x, y, u, v = a, r, u, v, m, n
+    return b, x, y
+
+def coPrime(x):
+    """
+    Finds a random co-prime of given number
+    """
+
+    n = x * 2 + 100000  # Upper limit for range of random integers
+    y = random.randint(x * 2, n)
+    if (gcd(x, y) != 1):
+        return coPrime(x)
+    else:
+        return y
+
 def RSA(p, q):
     n= p*q
     fi = (p-1)*(q-1)
-    e = fi-1
-    coprime = gcd(e,fi)
-    coprimeN = gcd(e,n)
-    while coprime!=1 and coprimeN != 1:
-        e -= 1
-        coprime = gcd(e, fi)
-        coprimeN = gcd(e, n)
-
-    d = e+1
-    while (e*d)%fi !=1:
-        d+=1
+    e = coPrime(fi)
+    d = modInverse(e,fi)
     publicKey = (e, n)
     privateKey = (d, n)
-    print(n)
     return publicKey, privateKey
 
 def encriptar(publikKey, mensaje):
-    mensajeEncriptado = pow(mensaje, publicKey[0])
-    mensajeEncriptado = mensajeEncriptado%publicKey[1]
+    mensajeEncriptado = pow(mensaje, publicKey[0], publicKey[1])
     return mensajeEncriptado
 
 
 def desencriptar(privateKey, cifrado):
-    mensajeDesencriptado = pow(cifrado, privateKey[0], publicKey[1])
+    mensajeDesencriptado = pow(int(cifrado), int(privateKey[0]), int(publicKey[1]))
     return mensajeDesencriptado
 
 
 
-publicKey, privateKey = RSA(53,59)
+publicKey, privateKey = RSA(53, 59)
 print(RSA(53,59))
-mensaje = "holaఽ"
-lista = [int(ord(c)) for c in mensaje]
+mensaje = "h"
+lista = int("".join(str(ord(c)) for c in mensaje))
 print(lista)
-listaEncrip=[]
-for simbol in lista:
-    listaEncrip.append(encriptar(publicKey, simbol))
+
+listaEncrip=(encriptar(publicKey, lista))
 print("encrip")
 print(listaEncrip)
 
-listaDesen = []
-for simbol in listaEncrip:
-    listaDesen.append(desencriptar(privateKey, simbol))
+listaDesen = (desencriptar(privateKey, listaEncrip))
 print("des")
 print(listaDesen)
 
