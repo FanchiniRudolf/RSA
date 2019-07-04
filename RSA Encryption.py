@@ -67,13 +67,31 @@ def mod_inverse_iterative(a, b):
         b, a, x, y, u, v = a, r, u, v, m, n
     return b, x, y
 
+
+def randomInt(min, max):
+    url = "https://api.random.org/json-rpc/2/invoke"
+
+    if 10**9<max:
+        min = 500000000
+        max = 1000000000
+
+
+    data = {"jsonrpc": "2.0", "method": "generateIntegers",
+            "params": {"apiKey": "320139d2-6163-4904-a1da-ecaabec303b2", "n": 2, "min": min, "max": max}, "id": 42}
+    response = requests.post(url, json=data)
+
+    numbers = response.json()
+    lista = numbers["result"]["random"]["data"]
+    return lista[0]
+
+
 def coPrime(x):
     """
     Finds a random co-prime of given number
     """
 
     n = x * 2 + 100000  # Upper limit for range of random integers
-    y = random.randint(x * 2, n)
+    y = randomInt(x * 2, n)
     if (gcd(x, y) != 1):
         return coPrime(x)
     else:
@@ -104,8 +122,9 @@ print(primes)
 publicKey, privateKey = RSA(primes[0], primes[1])
 print(publicKey)
 print(privateKey)
-mensaje = "hola soy german"
+mensaje = "hola"
 lista = int("".join(str(ord(c)) for c in mensaje))
+print("mensaje")
 print(lista)
 
 listaEncrip=(encriptar(publicKey, lista))
