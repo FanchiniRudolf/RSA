@@ -80,9 +80,9 @@ def desencriptar(privateKey, cifrado):
 
 
 
-publicKey, privateKey = RSA(53, 59)
-print(RSA(53,59))
-mensaje = "h"
+publicKey, privateKey = RSA(32449733, 32452843)
+print(RSA(32449733,32452843))
+mensaje = "hola soy german"
 lista = int("".join(str(ord(c)) for c in mensaje))
 print(lista)
 
