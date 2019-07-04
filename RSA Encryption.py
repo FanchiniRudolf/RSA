@@ -1,25 +1,45 @@
-#try:
-#import rdoclient
-#import requests
-from math import gcd
-"""except  ImportError:
-    import pip, sys, re
-    packagesNames=["requests","rdoclient"]
-    pip.main(['install'] + packagesNames + ['--upgrade'])
+def instalation():
+    subprocess.call([sys.executable, "-m", "pip", "install", "requests"])
+    subprocess.call([sys.executable, "-m", "pip", "install", "math"])
 
-    if __name__ == '__main__':
-        sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
-        sys.exit(main())"""
 
-def openFile():
+try:
+    import subprocess
+    import sys
+    import requests
+    from math import gcd, ceil
+except  ImportError:
+    import subprocess
+    import sys
+    instalation()
+    import requests
+    from math import gcd
+
+def randomMillion():
+    url = "https://api.random.org/json-rpc/2/invoke"
+
+    data = {"jsonrpc": "2.0", "method": "generateIntegers",
+            "params": {"apiKey": "320139d2-6163-4904-a1da-ecaabec303b2", "n": 2, "min": 0, "max": 1000000}, "id": 42}
+    response = requests.post(url, json=data)
+
+    numbers = response.json()
+    lista = numbers["result"]["random"]["data"]
+    return lista
+
+def openFile(index):
     file = open("primes2.txt", "r")
     full = file.read()
     file.close()
     lines = full.split("\n")
-    print(len(lines))
-    row = lines[0].split(",")
-    row = row[:-1]
-    print(row)
+    primes = []
+    for position in index:
+        row = lines[ceil(position/8)-1].split(",")
+        if position%8==0:
+            column = 7
+        else:
+            column = position%8
+        primes.append(int(row[column]))
+    return primes
 
 def RSA(p, q):
     n= p*q
@@ -50,10 +70,13 @@ def desencriptar(privateKey, cifrado):
     mensajeDesencriptado = pow(cifrado, privateKey[0], publicKey[1])
     return mensajeDesencriptado
 
-
-
-publicKey, privateKey = RSA(32449733, 32452843)
-print(RSA(32449733,32452843))
+index= randomMillion()
+print(index)
+primes = openFile(index)
+print(primes)
+publicKey, privateKey = RSA(primes[0], primes[1])
+print(publicKey)
+print(privateKey)
 mensaje = "hola soy german"
 lista = int("".join(str(ord(c)) for c in mensaje))
 print(lista)

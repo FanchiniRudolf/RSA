@@ -1,6 +1,5 @@
 import subprocess
 import sys
-import json
 import requests
 
 
