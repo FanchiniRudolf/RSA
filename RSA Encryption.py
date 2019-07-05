@@ -115,7 +115,7 @@ def desencriptar(privateKey, cifrado):
     mensajeDesencriptado = pow(int(cifrado), int(privateKey[0]), int(publicKey[1]))
     return mensajeDesencriptado
 
-opcion=input("Seleccione una de las siguientes opciones"+"\n"+"1. Proceso de encriptación completo"+"\n"+"2. Encriptación"+"\n")
+opcion=input("Seleccione una de las siguientes opciones"+"\n"+"1. Proceso de encriptación completo"+"\n"+"2. Encriptación"+"\n"+"3. Desencriptar "+"\n")
 if opcion=='1':
     index= randomMillion()
     #print(index)
@@ -150,11 +150,11 @@ elif opcion=='2':
     # print(lista)
     listaEncrip = (encriptar(publicKey, lista))
     print("Tu mensaje encriptado es: " + str(listaEncrip))
-'''elif opcion=='3':
+elif opcion=='3':
     privateKey=[]
     for i in range(0,2):
-        privateKey.append(input("Ingrese elemento número "+str(i+1)+" de la lista privada"+"\n"))
+        privateKey.append(input("Ingrese elemento número "+str(i+1)+" de la llave privada"+"\n"))
     publicKey=privateKey
     listaEncrip=input("Ingrese el mensaje a desenciptar")
     listaDesen = (desencriptar(privateKey, listaEncrip))
-    print("Tu mensaje desencriptado es " + str(listaDesen))'''
+    print("Tu mensaje desencriptado es " + str(listaDesen))
