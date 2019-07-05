@@ -128,11 +128,11 @@ if opcion=='1':
 
     lista = int("".join(str(ord(c)) for c in mensaje))
     print("Tu mensaje en valores ASCII es: "+str(lista))
-    #print(lista)
+
     listaEncrip=(encriptar(publicKey, lista))
     print("Tu mensaje encriptado es "+ str(listaEncrip))
 
-    #print(listaEncrip)
+
     listaDesen = (desencriptar(privateKey, listaEncrip))
     print("Tu mensaje desencriptado es "+str(listaDesen))
 elif opcion=='2':
