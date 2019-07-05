@@ -106,7 +106,7 @@ def RSA(p, q):
     privateKey = (d, n)
     return publicKey, privateKey
 
-def encriptar(publikKey, mensaje):
+def encriptar(publicKey, mensaje):
     mensajeEncriptado = pow(mensaje, publicKey[0], publicKey[1])
     return mensajeEncriptado
 
@@ -115,22 +115,46 @@ def desencriptar(privateKey, cifrado):
     mensajeDesencriptado = pow(int(cifrado), int(privateKey[0]), int(publicKey[1]))
     return mensajeDesencriptado
 
-index= randomMillion()
-print(index)
-primes = openFile(index)
-print(primes)
-publicKey, privateKey = RSA(primes[0], primes[1])
-print(publicKey)
-print(privateKey)
-mensaje = "hola"
-lista = int("".join(str(ord(c)) for c in mensaje))
-print("mensaje")
-print(lista)
+opcion=input("Seleccione una de las siguientes opciones"+"\n"+"1. Proceso de encriptación completo"+"\n"+"2. Encriptación"+"\n")
+if opcion=='1':
+    index= randomMillion()
+    #print(index)
+    primes = openFile(index)
+    #print(primes)
+    publicKey, privateKey = RSA(primes[0], primes[1])
+    print("Tu llave privada es: "+ str(privateKey))
+    print("Tu llave pública es: "+str(publicKey))
+    mensaje=input("Escribe el mensaje a encriptar"+"\n")
 
-listaEncrip=(encriptar(publicKey, lista))
-print("encrip")
-print(listaEncrip)
+    lista = int("".join(str(ord(c)) for c in mensaje))
+    print("Tu mensaje en valores ASCII es: "+str(lista))
+    #print(lista)
+    listaEncrip=(encriptar(publicKey, lista))
+    print("Tu mensaje encriptado es "+ str(listaEncrip))
 
-listaDesen = (desencriptar(privateKey, listaEncrip))
-print("des")
-print(listaDesen)
+    #print(listaEncrip)
+    listaDesen = (desencriptar(privateKey, listaEncrip))
+    print("Tu mensaje desencriptado es "+str(listaDesen))
+elif opcion=='2':
+    index = randomMillion()
+    # print(index)
+    primes = openFile(index)
+    # print(primes)
+    publicKey, privateKey = RSA(primes[0], primes[1])
+    print("Tu llave privada es: " + str(privateKey))
+    print("Tu llave pública es: " + str(publicKey))
+    mensaje = input("Escribe el mensaje a encriptar" + "\n")
+
+    lista = int("".join(str(ord(c)) for c in mensaje))
+    print("Tu mensaje en valores ASCII es: " + str(lista))
+    # print(lista)
+    listaEncrip = (encriptar(publicKey, lista))
+    print("Tu mensaje encriptado es: " + str(listaEncrip))
+'''elif opcion=='3':
+    privateKey=[]
+    for i in range(0,2):
+        privateKey.append(input("Ingrese elemento número "+str(i+1)+" de la lista privada"+"\n"))
+    publicKey=privateKey
+    listaEncrip=input("Ingrese el mensaje a desenciptar")
+    listaDesen = (desencriptar(privateKey, listaEncrip))
+    print("Tu mensaje desencriptado es " + str(listaDesen))'''
